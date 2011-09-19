@@ -4,21 +4,6 @@ Writen via {Riceball LEE}[https://github.com/snowyu].
 This is a redmine plugin for supporting Markdown, wikimedia, rdoc as wiki format.
 And it let you(the project manager) can select the text formatting in the project settings.
 
-
-== What is redmine?
-Redmine is a flexible project management web application.
-See ((<the official site|URL:http://www.redmine.org>)) for more details.
-
-== What is Markdown?
-(from http://daringfireball.net/projects/markdown/)
-Markdown is a text-to-HTML conversion tool for web writers. Markdown allows
-you to write using an easy-to-read, easy-to-write plain text format, then
-convert it to structurally valid XHTML (or HTML).
-
-
-See ((<the article on John Gruber's blog|URL:http://daringfireball.net/projects/markdown/>))
-for more details.
-
 == Plugin installation
 
 === Prerequisites
