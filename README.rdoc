@@ -1,7 +1,9 @@
 = Redmine Markup formatters
+Writen via {Riceball LEE}[https://github.com/snowyu].
 
 This is a redmine plugin for supporting Markdown, wikimedia, rdoc as wiki format.
 And it let you(the project manager) can select the text formatting in the project settings.
+
 
 == What is redmine?
 Redmine is a flexible project management web application.
@@ -27,8 +29,8 @@ for more details.
 * patch the redmine: project_text_formatting.patch
 
 === Installation
-(1) Copy the plugin directory into the vendor/plugins directory
-(2) Start Redmine
+1. Copy the plugin directory into the vendor/plugins directory
+2. Start Redmine
 
 Installed plugins are listed on 'Admin -> Information' screen.
 
