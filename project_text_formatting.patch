@@ -1,0 +1,42 @@
+diff --git a/app/controllers/wiki_controller.rb b/app/controllers/wiki_controller.rb
+index 1571727..7283177 100644
+--- a/app/controllers/wiki_controller.rb
++++ b/app/controllers/wiki_controller.rb
+@@ -257,7 +257,9 @@ private
+ 
+   # Returns the default content of a new wiki page
+   def initial_page_content(page)
+-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
++    # use the project text formatting first hack by riceball
++    @project = Project.find(params[:project_id]) unless @project
++    helper = Redmine::WikiFormatting.helper_for(@project.text_formatting || Setting.text_formatting)
+     extend helper unless self.instance_of?(helper)
+     helper.instance_method(:initial_page_content).bind(self).call(page)
+   end
+diff --git a/app/helpers/application_helper.rb b/app/helpers/application_helper.rb
+index 542d308..e0de8a4 100644
+--- a/app/helpers/application_helper.rb
++++ b/app/helpers/application_helper.rb
+@@ -458,7 +458,10 @@ module ApplicationHelper
+     project = options[:project] || @project || (obj && obj.respond_to?(:project) ? obj.project : nil)
+     only_path = options.delete(:only_path) == false ? false : true
+ 
+-    text = Redmine::WikiFormatting.to_html(Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
++    # use the project's wiki format first hack via riceball
++    text_formatting = options[:text_formatting] || ''
++    text_formatting = project.text_formatting if text_formatting.empty? && project
++    text = Redmine::WikiFormatting.to_html(text_formatting || Setting.text_formatting, text, :object => obj, :attribute => attr) { |macro, args| exec_macro(macro, obj, args) }
+ 
+     @parsed_headings = []
+     text = parse_non_pre_blocks(text) do |text|
+@@ -937,7 +940,9 @@ module ApplicationHelper
+   private
+ 
+   def wiki_helper
+-    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
++    # use the project's wiki format first hack via riceball
++    text_formatting = @project ? @project.text_formatting : Setting.text_formatting
++    helper = Redmine::WikiFormatting.helper_for(text_formatting)
+     extend helper
+     return self
+   end
