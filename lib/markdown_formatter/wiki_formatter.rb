@@ -26,7 +26,11 @@ module MarkdownFormatter
           :autolink => true
           )
       html = markdown.render(@text)
-      html.gsub(/<a\s/, "<a class='external'") # Add the `external` class to every link
+      html.gsub!(/<a\s/, "<a class='external' ") # Add the `external` class to every link
+      html.gsub(/&#(\d+);/) do
+        ascii = Integer($~.captures[0])
+        ascii.chr
+      end
       #doc = Nokogiri::HTML(html).css('body').first.children 
       #doc.search("//pre/code[@class]").each do |pre|
       #  p pre[:class]

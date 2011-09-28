@@ -41,6 +41,4 @@ Installed plugins are listed on 'Admin -> Information' screen.
   allow pluggable formatters
 
 == Future Plans
-* make the blockquote and unblockquote work for list items to indent
-  and un-indent.  Current behavior is kind of confusing.
 * support more wiki formatters.
