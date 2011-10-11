@@ -1,0 +1,13 @@
+diff --git a/lib/redmine.rb b/lib/redmine.rb
+index e840ccb..2f6f709 100644
+--- a/lib/redmine.rb
++++ b/lib/redmine.rb
+@@ -243,7 +243,7 @@ Redmine::Search.map do |search|
+ end
+ 
+ Redmine::WikiFormatting.map do |format|
+-  format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
++  #format.register :textile, Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting::Textile::Helper
+ end
+ 
+ ActionView::Template.register_template_handler :rsb, Redmine::Views::ApiTemplateHandler

@@ -11,7 +11,7 @@ And it let you(the project manager) can select the text formatting in the projec
 * redcarpet gem >= 2.0.0b4 (markup formatting)
 * wikicloth gem (mediawiki formatting)
 * rdoc gem (RDoc formatting)
-* patch the redmine: project_text_formatting.patch
+* patch the redmine: project_text_formatting.patch and textile.patch
 
 === Installation
 1. Copy the plugin directory into the vendor/plugins directory

@@ -21,4 +21,5 @@ Redmine::Plugin.register :redmine_markups do
   wiki_format_provider 'markdown', MarkdownFormatter::WikiFormatter, MarkdownFormatter::Helper
   wiki_format_provider 'mediawiki', MediawikiFormatter::WikiFormatter, MediawikiFormatter::Helper
   wiki_format_provider 'rdoc', RdocFormatter::WikiFormatter, RdocFormatter::Helper
+  wiki_format_provider 'textile', TextileFormatter::WikiFormatter, TextileFormatter::Helper
 end
