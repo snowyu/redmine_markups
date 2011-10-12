@@ -28,10 +28,51 @@ module TextileFormatter
           text.gsub!( /(.)\n(?!\n|\Z| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
         end
 
-        #{ OFFTAGS }
-        OFFTAG_MATCH = /<#{ OFFTAGS }\b([^>]*)?>([^<]*)<\/\1>/i
+        # { OFFTAGS }
+        # (?:(<\/#{ OFFTAGS }>)|(<#{ OFFTAGS }[^>]*>))(.*?)(?=<\/?#{ OFFTAGS }\W|\Z
+        #OFFTAG_MATCH = /<#{ OFFTAGS }\b([^>]*)?>([^<]*)<\/\1>/i
         
         def rip_offtags( text )
+          if text =~ /<.*>/
+              ## strip and encode <pre> content
+              codepre, used_offtags = 0, {}
+              text.gsub!( OFFTAG_MATCH ) do |line|
+                  if $3
+                      offtag, aftertag = $4, $5
+                      codepre += 1
+                      used_offtags[offtag] = true
+                      if codepre - used_offtags.length > 0
+                          htmlesc( line, :NoQuotes )
+                          @pre_list.last << line
+                          line = ""
+                      else
+                          htmlesc( aftertag, :NoQuotes ) if aftertag
+                          line = "<redpre##{ @pre_list.length }>"
+                          $3.match(/<#{ OFFTAGS }([^>]*)>/)
+                          tag = $1
+                          $2.to_s.match(/(class\=\S+)/i)
+                          tag << " #{$1}" if $1
+                          @pre_list << "<#{ tag }>#{ aftertag }"
+                      end
+                  elsif $1 and codepre > 0
+                      if codepre - used_offtags.length > 0
+                          htmlesc( line, :NoQuotes )
+                          @pre_list.last << line
+                          line = ""
+                      end
+                      if codepre == 1
+                        @pre_list.last << "#{$1}"
+                        line = line[$1.length..-1]
+                        p line
+                      end
+                      codepre -= 1 unless codepre.zero?
+                      used_offtags = {} if codepre.zero?
+                  end 
+                  line
+              end
+          end
+          text
+=begin
             if text =~ /<.*>/
                 ## strip and encode <pre> content
                 codepre, used_offtags = 0, {}
@@ -46,6 +87,7 @@ module TextileFormatter
                 end
             end
             text
+=end
         end
         # Patch to add code highlighting support to RedCloth
         def smooth_offtags( text )
@@ -55,7 +97,7 @@ module TextileFormatter
               content = @pre_list[$1.to_i]
               if content.match(/<(code|pre)\b\s+class="(\w+)">\s?(.+)<\/\1>/m)
                 content =
-                  Redmine::SyntaxHighlighting.highlight_by_language($3, $2)
+                  Redmine::SyntaxHighlighting.highlight_by_language($3, $2, false)
               end
               content
             end
