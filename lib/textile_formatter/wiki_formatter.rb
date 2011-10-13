@@ -63,7 +63,6 @@ module TextileFormatter
                       if codepre == 1
                         @pre_list.last << "#{$1}"
                         line = line[$1.length..-1]
-                        p line
                       end
                       codepre -= 1 unless codepre.zero?
                       used_offtags = {} if codepre.zero?
