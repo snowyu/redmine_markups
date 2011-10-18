@@ -15,6 +15,8 @@ end
 Redmine::Plugin.register :redmine_markups do
   name 'Markups language formatters'
   author 'Riceball lEE'
+  author_url "https://github.com/snowyu"
+  url "https://github.com/snowyu/redmine_js_syntax_highlighter"
   description 'This provides Markdown, wikimedia  etc multiple wiki formats'
   version '0.0.1'
 
